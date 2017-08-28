@@ -62,6 +62,7 @@ var EntityStore = Reflux.createStore({
      * @param {object} data 后端返回的entity原始数据
      */
     setEntities: function(data) {
+		console.log("setEntities was called");
         var that = this;
         that.data.total = data.total;
         that.data.size = data.size;
@@ -111,6 +112,7 @@ var EntityStore = Reflux.createStore({
      * @param {number} pageindex 页码
      */
     onList: function(pageindex) {
+		console.log("OnList was called");
         var that = this;
         that.data.currentPage = pageindex;
         that.data.entities = [];
@@ -125,11 +127,11 @@ var EntityStore = Reflux.createStore({
                 this.trigger('total', that.data.total);
                 this.trigger('totalpage', Math.ceil(that.data.total / 15));
             } else {
-                this.trigger('list', []);
+/*                 this.trigger('list', []);
                 this.trigger('listcomplete', 0);
                 this.trigger('total', 0);
                 this.trigger('totalpage', 0);
-                this.trigger('initpage');
+                this.trigger('initpage'); */
             }
         }.bind(this));
     },

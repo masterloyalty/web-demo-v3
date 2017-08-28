@@ -137,7 +137,7 @@ var TrackStore = Reflux.createStore({
         this.trigger('switchmanagetab', index);
     },
     onGetservicename: function() {
-        this.trigger('servicename', '示例DEMO');
+        this.trigger('servicename', '员工位置管理');
         // 车辆行业0，
         this.trigger('servicetype', 0);
     },
@@ -168,13 +168,17 @@ var TrackStore = Reflux.createStore({
      * @param {number} index页码
      */
     onSearchallentity: function(index) {
+		console.log("onsearchentity was called." + index);
         this.updateOnlineTime();
         var that = this;
         if (that.data.searchingAll === 1) {
             return;
         }
         that.data.searchingAll = 1;
+		console.log("before : index = " + index);
         index = index || that.data.currentAllPage;
+		console.log("after : index = " + index);
+		index = index == 0 ? 1 : index;
         that.data.currentAllPage = index;
         that.data.allEntities = [];
         that.data.allCompleteEntities = [];
@@ -194,12 +198,12 @@ var TrackStore = Reflux.createStore({
                 this.trigger('totalallpage', allpage);
                 that.data.searchingAll = 0;
             } else {
-                that.setAllEntities([]);
+/*                 that.setAllEntities([]);
                 that.setallCompleteEntities([]);
                 this.trigger('totalall', 0);
                 // this.trigger('totalallpage', 0);
                 this.trigger('initallpage');
-                that.data.searchingAll = 0;
+                that.data.searchingAll = 0; */
             }
         }.bind(this));
     },
@@ -233,12 +237,12 @@ var TrackStore = Reflux.createStore({
                 this.trigger('totalofflinepage', Math.ceil(data.total / 10));
                 that.data.searchingOffline = 0;
             } else {
-                that.setOfflineEntities([]);
-                that.setOfflineCompleteEntities([]);
-                this.trigger('totaloffline', 0);
-                this.trigger('totalofflinepage', 0);
-                this.trigger('initofflinepage');
-                that.data.searchingOffline = 0;
+                // that.setOfflineEntities([]);
+                // that.setOfflineCompleteEntities([]);
+                // this.trigger('totaloffline', 0);
+                // this.trigger('totalofflinepage', 0);
+                // this.trigger('initofflinepage');
+                // that.data.searchingOffline = 0;
             }
         }.bind(this));
     },
@@ -272,12 +276,12 @@ var TrackStore = Reflux.createStore({
                 this.trigger('totalonlinepage', Math.ceil(data.total / 10));
                 that.data.searchingOnline = 0;
             } else {
-                that.setOnlineEntities([]);
-                that.setonlineCompleteEntities([]);
-                this.trigger('totalonline', 0);
-                this.trigger('totalonlinepage', 0);
-                this.trigger('initonlinepage');
-                that.data.searchingOnline = 0;
+                // that.setOnlineEntities([]);
+                // that.setonlineCompleteEntities([]);
+                // this.trigger('totalonline', 0);
+                // this.trigger('totalonlinepage', 0);
+                // this.trigger('initonlinepage');
+                // that.data.searchingOnline = 0;
             }
         }.bind(this));
     },

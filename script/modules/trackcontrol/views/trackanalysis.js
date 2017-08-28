@@ -761,8 +761,6 @@ var TrackAnalysis = React.createClass({
                     <div className={analysisHeaderTitle1} onClick={handleToggleProcess}>轨迹纠偏</div>
                     <div className={analysisHeaderPoint1} onClick={handleToggleProcess}></div>
                     <div className="analysisHeaderLine"></div>
-                    <div className={analysisHeaderTitle2} onClick={handleToggleBehavior}>驾驶行为分析</div>
-                    <div className={analysisHeaderPoint2} onClick={handleToggleBehavior}></div>
                 </div>
                 <div className={analysisTab === 1 && tabIndex === 1 ? 'trackAnalysisProcess visible' : 'trackAnalysisProcess hidden'} style={parentVisible}>
                     <div className="processClose" onClick={handleClose}></div>
@@ -795,44 +793,6 @@ var TrackAnalysis = React.createClass({
                         <div className="trafficMethodItem">
                             <input type="radio" name="trafficMethod" id="byWalk" />
                             <label htmlFor="byWalk">步行</label>
-                        </div>
-                    </div>
-                </div>
-                <div className={analysisTab === 2 && tabIndex === 1 ? 'trackAnalysisBehavior visible' : 'trackAnalysisBehavior hidden'} style={parentVisible}>
-                    <div className="behaviorClose" onClick={handleClose}></div>
-                    <div className="behaviorTile">驾驶行为分析</div>
-                    <div className={behaviorSwitch} onClick={handleBehaviorSwitch}></div>
-                    <div className="behaviorControl">
-                        <div className="behaviorControlItem">
-                            <div className={controlItemNum1}>{behaviorSpeeding}</div>
-                            <div className="controlItemBot">
-                                <input type="checkbox" id="speeding" />
-                                <label htmlFor="speeding">超速</label>
-                            </div>
-                        </div>
-                        <div className="controlItemLine"></div>
-                        <div className="behaviorControlItem">
-                            <div className={controlItemNum2}>{behaviorAcceleration}</div>
-                            <div className="controlItemBot">
-                                <input type="checkbox" id="acceleration" />
-                                <label htmlFor="acceleration">急变速</label>
-                            </div>
-                        </div>
-                        <div className="controlItemLine"></div>
-                        <div className="behaviorControlItem">
-                            <div className={controlItemNum3}>{behaviorSteering}</div>
-                            <div className="controlItemBot">
-                                <input type="checkbox" id="steering" />
-                                <label htmlFor="steering">急转弯</label>
-                            </div>
-                        </div>
-                        <div className="controlItemLine"></div>
-                        <div className="behaviorControlItem">
-                            <div className={controlItemNum4}>{behaviorStaypoint}</div>
-                            <div className="controlItemBot">
-                                <input type="checkbox" id="staypoint" />
-                                <label htmlFor="staypoint">停留</label>
-                            </div>
                         </div>
                     </div>
                 </div>

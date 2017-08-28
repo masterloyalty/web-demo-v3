@@ -68,6 +68,7 @@ var Monitorpage = React.createClass({
      * @param {object} event 事件对象 
      */
     handleJumppage: function (event) {
+		console.log("monitorpage handleJumppage was called");
         var jumpPage = this.state.inputPage;
         this.setState({currentPage: jumpPage});
         TrackAction.list(jumpPage);
@@ -78,6 +79,7 @@ var Monitorpage = React.createClass({
      * @param {object} event 事件对象 
      */
     handleLastpage: function (event) {
+		console.log("monitorpage handleLastpage was called");
         if(this.state.currentPage === 1 || this.state.cliking === 1) {
             return;
         } else {
@@ -94,6 +96,7 @@ var Monitorpage = React.createClass({
      * @param {object} event 事件对象 
      */
     handleNextpage: function (event) {
+		console.log("monitorpage handleNextpage was called");
         if(this.state.currentPage === this.state.totalPage || this.state.cliking === 1) {
             return;
         } else {

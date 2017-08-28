@@ -118,6 +118,7 @@ var Page = React.createClass({
      * @param {object} event 事件对象 
      */
     handleJumppage: function (event) {
+		console.log("handleJumppage was called")
         if(this.state.currentPage == this.state.inputPage || this.state.cliking === 1) {
             return;
         }
@@ -132,6 +133,7 @@ var Page = React.createClass({
      * @param {object} event 事件对象 
      */
     handleLastpage: function (event) {
+		console.log("handleLastpage was called");
         if(this.state.currentPage === 1 || this.state.cliking === 1) {
             return;
         } else {
@@ -148,6 +150,7 @@ var Page = React.createClass({
      * @param {object} event 事件对象 
      */
     handleNextpage: function (event) {
+		console.log("handleNextpage was called");
         if(this.state.currentPage === this.state.totalPage || this.state.cliking === 1) {
             return;
         } else {
@@ -164,6 +167,7 @@ var Page = React.createClass({
      * @param {object} event 事件对象
      */
     handleKeyBoard: function(event) {
+		console.log("handleKeyBoard was called");
         if(this.state.currentPage == this.state.inputPage || this.state.cliking === 1) {
             return;
         }

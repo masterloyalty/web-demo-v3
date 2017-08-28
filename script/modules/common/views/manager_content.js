@@ -17,7 +17,6 @@ let ManagerContent = React.createClass({
         return (
             <div className="main">
                 <div className="trunk" id="trunk">
-                    <Header />
                     <TrackControl />
                     <EntityControl />
                 </div>

@@ -53,6 +53,7 @@ var Entitylist = React.createClass({
         this.setCheckboxStyle();
     },
     onStatusChange: function (type,data) {
+		console.log("onStatusChange was called");
         switch (type){
             case 'listcolumn':
                 this.listenListcolumn(data);
