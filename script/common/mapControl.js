@@ -14,6 +14,7 @@ import TrackAction from '../modules/trackcontrol/actions/trackAction';
 import Urls from 'urls';
 
 var markerMap = {};
+var imgArr = [];
 
 window.mapControl = {
     /**
@@ -628,7 +629,7 @@ window.mapControl = {
 			});
 			map.addOverlay(this.entityMarker);
 			
-			markerMap[this.entityMarker] = photoOverlay;
+			markerMap[point] = photoOverlay;
         }
         
         // 如果是定时器触发的，那么不移动地图
@@ -666,19 +667,28 @@ window.mapControl = {
                     break;
             }
         } else {
-            height = 22;
-            width = 27;
-            switch (status) {
-                case '离线':
-                    iconUrl = __uri('/static/images/timg.png');
-                    break;
-                case '静止':
-                    iconUrl = __uri('/static/images/timg.png');
-                    break;
-                default:
-                    iconUrl = __uri('/static/images/timg.png');
-                    break;
-            }
+            height = 1;
+            width = 1;
+            // switch (status) {
+                // case '离线':
+                    // iconUrl = __uri('/static/images/timg.png');
+                    // break;
+                // case '静止':
+                    // iconUrl = __uri('/static/images/timg.png');
+                    // break;
+                // default:
+                    // iconUrl = __uri('/static/images/timg.png');
+                    // break;
+            // }
+			iconUrl = __uri('/static/images/empty.png');
+			let photo = __uri('/static/images/no_photo.jpg');
+			if(data.photo != null && data.photo != undefined && data.photo != "") {
+				photo = data.photo;
+			}
+			
+			let point = new BMap.Point(data.point[0], data.point[1]);
+			let photoOverlay = this.addPhotoOverlay(point, 50, photo, status.substring(0, 2));
+			imgArr.push(photoOverlay);
         }
         img.src = iconUrl;
         img.style.width = width;
@@ -691,8 +701,8 @@ window.mapControl = {
      *
      */
     removeEntityMarker() {
-		if(markerMap[this.entityMarker] != undefined) {
-			this.removePhotoOverlay(markerMap[this.entityMarker]);
+		if(this.entityMarker != undefined && markerMap[this.entityMarker.point] != undefined) {
+			this.removePhotoOverlay(markerMap[this.entityMarker.point]);
 		}
         map.removeOverlay(this.entityMarker);
         this.entityMarker = null;
@@ -776,6 +786,12 @@ window.mapControl = {
      * @param {Object} MarkerOption 数据样式
      */
     setBoundSearch(markerArr, MarkerOption) {
+		if(markerArr.length == 0) {
+			for(var key in imgArr) {
+				this.removePhotoOverlay(imgArr[key]);
+			}
+		}
+		
         let overlays = map.getOverlays();
         if (window.dataSet && window.mapvLayer && overlays.length !== 0) {
 

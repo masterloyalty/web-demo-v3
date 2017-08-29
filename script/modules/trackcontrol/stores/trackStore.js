@@ -403,7 +403,7 @@ var TrackStore = Reflux.createStore({
                                 direction: eitem.latest_location.direction,
                                 status: status,
                                 entity_status: entity_status,
-								entity_photo: eitem.photo
+								photo: eitem.photo
                             });
 
 
@@ -460,7 +460,7 @@ var TrackStore = Reflux.createStore({
                             direction: eitem.latest_location.direction,
                             status: status,
                             entity_status: entity_status,
-							entity_photo: eitem.photo
+							photo: eitem.photo
                         });
                     });
                     if (inBoundsEntity.length !== data.total) {
@@ -509,7 +509,7 @@ var TrackStore = Reflux.createStore({
                                 direction: eitem.latest_location.direction,
                                 status: status,
                                 entity_status: entity_status,
-								entity_photo: eitem.photo
+								photo: eitem.photo
                             });
                         });
                         if (++tempCount === j) {
