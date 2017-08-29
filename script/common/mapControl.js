@@ -11,6 +11,9 @@
 
 // import ZoomControl from 'zoomControl'
 import TrackAction from '../modules/trackcontrol/actions/trackAction';
+import Urls from 'urls';
+
+var markerMap = {};
 
 window.mapControl = {
     /**
@@ -86,6 +89,7 @@ window.mapControl = {
     initOverlay: function() {
         this.initBehaviorOverlay();
         this.initTrackPointOverlay();
+        this.initPhotoOverlay();
     },
     /**
      * 添加城市列表控件
@@ -587,29 +591,46 @@ window.mapControl = {
                     iconUrl = __uri('/static/images/carrunnorth.png');
                     break;
             }
+			
+			let icon = new BMap.Icon(iconUrl, size);
+			icon.setImageSize(imageSize);
+			this.entityMarker = new BMap.Marker(point, {icon: icon});
+			this.entityMarker.setRotation(data.direction);
+			this.entityMarker.addEventListener('click', function (e) {
+				that.monitorInfoBox.open(that.entityMarker);
+			});
+			map.addOverlay(this.entityMarker);
         } else {
-            size = new BMap.Size(22, 27);
-            imageSize = new BMap.Size(22, 27);
-            switch (status.substring(0, 2)) {
-                case '离线':
-                    iconUrl = __uri('/static/images/othertypeoffline.png');
-                    break;
-                case '静止':
-                    iconUrl = __uri('/static/images/othertypestatic.png');
-                    break;
-                default:
-                    iconUrl = __uri('/static/images/othertype.png');
-                    break;
-            }
+            // size = new BMap.Size(22, 27);
+            // imageSize = new BMap.Size(22, 27);
+            // switch (status.substring(0, 2)) {
+                // case '离线':
+                    // iconUrl = __uri('/static/images/timg.png');
+                    // break;
+                // case '静止':
+                    // iconUrl = __uri('/static/images/timg.png');
+                    // break;
+                // default:
+                    // iconUrl = __uri('/static/images/timg.png');
+                    // break;
+            // }
+			let photo = __uri('/static/images/no_photo.jpg');
+			if(data.photo != null && data.photo != undefined && data.photo != "") {
+				photo = data.photo;
+			}
+			let photoOverlay = this.addPhotoOverlay(point, 50, photo, status.substring(0, 2));
+			
+			size = new BMap.Size(48, 48);
+			let icon = new BMap.Icon(__uri('/static/images/empty.png'), size);
+			this.entityMarker = new BMap.Marker(point, {icon: icon, offset: new BMap.Size(-2, -20)});
+			this.entityMarker.addEventListener('click', function (e) {
+				that.monitorInfoBox.open(that.entityMarker);
+			});
+			map.addOverlay(this.entityMarker);
+			
+			markerMap[this.entityMarker] = photoOverlay;
         }
-        let icon = new BMap.Icon(iconUrl, size);
-        icon.setImageSize(imageSize);
-        this.entityMarker = new BMap.Marker(point, {icon: icon});
-        this.entityMarker.setRotation(data.direction);
-        this.entityMarker.addEventListener('click', function (e) {
-            that.monitorInfoBox.open(that.entityMarker);
-        });
-        map.addOverlay(this.entityMarker);
+        
         // 如果是定时器触发的，那么不移动地图
         if (!data.interval) {
             map.panTo(point);
@@ -649,13 +670,13 @@ window.mapControl = {
             width = 27;
             switch (status) {
                 case '离线':
-                    iconUrl = __uri('/static/images/othertypeoffline.png');
+                    iconUrl = __uri('/static/images/timg.png');
                     break;
                 case '静止':
-                    iconUrl = __uri('/static/images/othertypestatic.png');
+                    iconUrl = __uri('/static/images/timg.png');
                     break;
                 default:
-                    iconUrl = __uri('/static/images/othertype.png');
+                    iconUrl = __uri('/static/images/timg.png');
                     break;
             }
         }
@@ -670,6 +691,9 @@ window.mapControl = {
      *
      */
     removeEntityMarker() {
+		if(markerMap[this.entityMarker] != undefined) {
+			this.removePhotoOverlay(markerMap[this.entityMarker]);
+		}
         map.removeOverlay(this.entityMarker);
         this.entityMarker = null;
     },
@@ -775,6 +799,109 @@ window.mapControl = {
             };
             window.mapvLayer = new mapv.baiduMapLayer(map, dataSet, options);
         }
+    },
+    /**
+     * 初始化轨迹点信息覆盖物
+     *
+     */
+    initPhotoOverlay() {
+        this.photoOverlay = function (point, length, photo, status) {
+            this._point = point;
+            // this.type = 'trackpoint';
+            this._length = length;
+            this._photo = photo;
+			this.status = status;
+            this.type = 'photo';
+        };
+        this.photoOverlay.prototype = new BMap.Overlay();
+        this.photoOverlay.prototype.initialize = function (map) {
+            // 保存map对象实例
+            this._map = map;
+            // 创建div元素，作为自定义覆盖物的容器
+            var div = document.createElement("div");
+            div.style.position = "absolute";
+            // 可以根据参数设置元素外观
+            div.style.width = this._length + "px";
+            div.style.height = this._length + "px";
+            div.style.padding = "3px";
+            div.style.backgroundImage = "url('" + __uri('static/images/timg.png') + "')";
+            div.style.backgroundRepeat = "no-repeat";
+            div.style.backgroundSize = "40px 54px";
+            // 将div添加到覆盖物容器中
+            map.getPanes().markerPane.appendChild(div);
+            // 保存div实例
+            this._div = div;
+
+            var childDiv = document.createElement("div");
+            childDiv.style.position = "absolute";
+            // 可以根据参数设置元素外观
+            childDiv.style.width = 34 + "px";
+            childDiv.style.height = 34 + "px";
+            childDiv.style.background = "#fff";
+            childDiv.style.borderRadius = 17 + "px";
+			if(this._photo.indexOf("no_photo.jpg") == -1) {
+				childDiv.style.backgroundImage = "url('" + Urls.general_url + this._photo + "')";
+			} else {
+				childDiv.style.backgroundImage = "url('" + this._photo + "')";
+			}
+            childDiv.style.backgroundRepeat = "no-repeat";
+            childDiv.style.backgroundSize = "34px 34px";
+            // 需要将div元素作为方法的返回值，当调用该覆盖物的show、
+            // hide方法，或者对覆盖物进行移除时，API都将操作此元素。
+            div.appendChild(childDiv);
+			
+			if(this.status == "离线") {
+				div.className = 'gray';
+			}
+
+            return div;
+        };
+        this.photoOverlay.prototype.draw = function () {
+            var position = this._map.pointToOverlayPixel(this._point);
+            this._div.style.left = position.x - this._length / 2 + 3 + "px";
+            this._div.style.top = position.y - this._length + "px";
+        };
+		this.photoOverlay.prototype.addEventListener = function(event, fun) {
+			this._div['on' + event] = fun;
+		};
+    },
+
+    /**
+     * 添加轨迹点信息覆盖物
+     *
+     * @param {Object} point 点
+     * @param {string} type 点类型
+     */
+    addPhotoOverlay(point, length, photo, background) {
+		let that = this;
+        let myCompOverlay = new this.photoOverlay(point, length, photo, background);
+		
+		map.addOverlay(myCompOverlay); 
+		
+		// this.entityMarker.addEventListener('click', function (e) {
+			// that.monitorInfoBox.open(that.entityMarker);
+		// });
+		// return new BMap.Marker(point);
+		return myCompOverlay;
+    },
+
+    /**
+     * 删除轨迹点信息覆盖物
+     *
+     * @param {string} type 类型，分为鼠标浮动和点击两种
+     */
+    removePhotoOverlay(overlay) {
+        // let overlays = map.getOverlays();
+        // let length = overlays.length;
+        // let trackPointOverlays = [];
+        // for (let i = 0; i < length; i++) {
+            // if (overlays[i].type === 'photo') {
+                // trackPointOverlays.push(overlays[i]);
+            // }
+        // }
+        // for (let j = 0; j < trackPointOverlays.length; j++) {
+            // map.removeOverlay(trackPointOverlays[j]);
+        // }
+		map.removeOverlay(overlay);
     }
 }
-

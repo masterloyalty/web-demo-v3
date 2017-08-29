@@ -198,12 +198,12 @@ var TrackStore = Reflux.createStore({
                 this.trigger('totalallpage', allpage);
                 that.data.searchingAll = 0;
             } else {
-/*                 that.setAllEntities([]);
+                that.setAllEntities([]);
                 that.setallCompleteEntities([]);
                 this.trigger('totalall', 0);
                 // this.trigger('totalallpage', 0);
                 this.trigger('initallpage');
-                that.data.searchingAll = 0; */
+                that.data.searchingAll = 0;
             }
         }.bind(this));
     },
@@ -276,12 +276,12 @@ var TrackStore = Reflux.createStore({
                 this.trigger('totalonlinepage', Math.ceil(data.total / 10));
                 that.data.searchingOnline = 0;
             } else {
-                // that.setOnlineEntities([]);
-                // that.setonlineCompleteEntities([]);
-                // this.trigger('totalonline', 0);
-                // this.trigger('totalonlinepage', 0);
-                // this.trigger('initonlinepage');
-                // that.data.searchingOnline = 0;
+                that.setOnlineEntities([]);
+                that.setonlineCompleteEntities([]);
+                this.trigger('totalonline', 0);
+                this.trigger('totalonlinepage', 0);
+                this.trigger('initonlinepage');
+                that.data.searchingOnline = 0;
             }
         }.bind(this));
     },
@@ -402,7 +402,8 @@ var TrackStore = Reflux.createStore({
                                 point: [eitem.latest_location.longitude, eitem.latest_location.latitude],
                                 direction: eitem.latest_location.direction,
                                 status: status,
-                                entity_status: entity_status
+                                entity_status: entity_status,
+								entity_photo: eitem.photo
                             });
 
 
@@ -458,7 +459,8 @@ var TrackStore = Reflux.createStore({
                             point: [eitem.latest_location.longitude, eitem.latest_location.latitude],
                             direction: eitem.latest_location.direction,
                             status: status,
-                            entity_status: entity_status
+                            entity_status: entity_status,
+							entity_photo: eitem.photo
                         });
                     });
                     if (inBoundsEntity.length !== data.total) {
@@ -506,7 +508,8 @@ var TrackStore = Reflux.createStore({
                                 point: [eitem.latest_location.longitude, eitem.latest_location.latitude],
                                 direction: eitem.latest_location.direction,
                                 status: status,
-                                entity_status: entity_status
+                                entity_status: entity_status,
+								entity_photo: eitem.photo
                             });
                         });
                         if (++tempCount === j) {
@@ -579,6 +582,7 @@ var TrackStore = Reflux.createStore({
                                 point: [item.latest_location.longitude, item.latest_location.latitude],
                                 direction:item.latest_location.direction,
                                 status: Commonfun.getInfoWindowStatus(item.latest_location.speed, item.latest_location.loc_time, item.latest_location.direction),
+								photo: item.photo,
                                 infor: [
                                     ['状态:', Commonfun.getInfoWindowStatus(item.latest_location.speed, item.latest_location.loc_time, item.latest_location.direction)],
                                     ['地址:', address],
@@ -656,7 +660,8 @@ var TrackStore = Reflux.createStore({
                 desc,
                 descIndex,
                 '',
-                item.entity_desc ? item.entity_desc : '无'
+                item.entity_desc ? item.entity_desc : '无',
+				item.photo
             ];
             // 为managerdemo添加特殊识别字段entity_id
             if (!!item.entity_id) {
@@ -713,8 +718,8 @@ var TrackStore = Reflux.createStore({
                 desc,
                 descIndex,
                 '',
-                item.entity_desc ? item.entity_desc : '无'
-
+                item.entity_desc ? item.entity_desc : '无',
+				item.photo
             ];
             // 为managerdemo添加特殊识别字段entity_id
             if (!!item.entity_id) {
@@ -771,7 +776,8 @@ var TrackStore = Reflux.createStore({
                 desc,
                 descIndex,
                 '',
-                item.entity_desc ? item.entity_desc : '无'
+                item.entity_desc ? item.entity_desc : '无',
+				item.photo
             ];
             // 为managerdemo添加特殊识别字段entity_id
             if (!!item.entity_id) {

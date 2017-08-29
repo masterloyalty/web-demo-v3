@@ -89,7 +89,8 @@ var EntityStore = Reflux.createStore({
                     ['entity_desc', item.entity_desc ? item.entity_desc : '无'],
                     ['create_time', item.create_time],
                     ['local_address', dataGeo.result.formatted_address === '' ? '无' : dataGeo.result.formatted_address,],
-                    ['loc_time', Commonfun.getLocalTime(item.latest_location.loc_time)]
+                    ['loc_time', Commonfun.getLocalTime(item.latest_location.loc_time)],
+					['entity_photo', item.photo]
                 ].concat(temp));
                 if (that.data.entities.length === that.data.size) {
                     that.trigger('list', that.getEntities());
@@ -127,11 +128,11 @@ var EntityStore = Reflux.createStore({
                 this.trigger('total', that.data.total);
                 this.trigger('totalpage', Math.ceil(that.data.total / 15));
             } else {
-/*                 this.trigger('list', []);
+                this.trigger('list', []);
                 this.trigger('listcomplete', 0);
                 this.trigger('total', 0);
                 this.trigger('totalpage', 0);
-                this.trigger('initpage'); */
+                this.trigger('initpage');
             }
         }.bind(this));
     },

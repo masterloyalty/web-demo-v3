@@ -4,28 +4,29 @@
  */
 import Commonfun from 'commonfun'
 
-var general_url = '//localhost:8093/v1/map_and_track';
+var general_url = '//localhost:8093/v1';
 var urls = {
+    general_url: general_url,
     // 矩形区域检索entity
-    boundsearchEntity: general_url + '/boundsearch',
+    boundsearchEntity: general_url + '/map_and_track/boundsearch',
     // 获取track的distance
-    getDistance: general_url + '/getdistance',
+    getDistance: general_url + '/map_and_track/getdistance',
     // 获取track信息
-    getTrack: general_url + '/gettrack',
+    getTrack: general_url + '/map_and_track/gettrack',
 
     // 获取自定义字段列表
-    columnsList: general_url + '/listcolumn',
+    columnsList: general_url + '/map_and_track/listcolumn',
     // 经纬度解析
-    getAddress: general_url + '/location/',
+    getAddress: general_url + '/map_and_track/location/',
     // 通过新的search接口获取数据，包括所有entity、模糊搜索entity、在线entity、离线entity
     // searchEntity: '//yingyan.baidu.com/api/v3/entity/search',
-	searchEntity: general_url + '/search',
+	searchEntity: general_url + '/map_and_track/search',
     // 获取track列表
-    trackList: general_url + '/gethistory',
+    trackList: general_url + '/map_and_track/gethistory',
     // 获取停留点
-    getstaypoint: general_url + '/getstaypoints',
+    getstaypoint: general_url + '/map_and_track/getstaypoints',
     // 获取驾驶行为分析信息
-    getBehaviorAnalysis: general_url + '/drivingbehavior',
+    getBehaviorAnalysis: general_url + '/map_and_track/drivingbehavior',
 
     /**
      * Jquery AJAX GET
