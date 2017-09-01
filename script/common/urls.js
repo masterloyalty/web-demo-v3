@@ -4,7 +4,7 @@
  */
 import Commonfun from 'commonfun'
 
-var general_url = '//localhost:8093/v1';
+var general_url = '//114.215.90.83:8094/v1';
 var urls = {
     general_url: general_url,
     // 矩形区域检索entity
