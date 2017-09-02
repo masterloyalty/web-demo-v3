@@ -688,6 +688,10 @@ window.mapControl = {
 			
 			let point = new BMap.Point(data.point[0], data.point[1]);
 			let photoOverlay = this.addPhotoOverlay(point, 50, photo, status.substring(0, 2));
+			photoOverlay.addEventListener('click', function (e) {
+				TrackAction.selectcar(data.entity_name, data.entity_status, '')
+			});
+			
 			imgArr.push(photoOverlay);
         }
         img.src = iconUrl;
@@ -811,7 +815,11 @@ window.mapControl = {
                 size: 20,
                 draw: 'icon',
                 height: MarkerOption.height,
-                width: MarkerOption.width
+                width: MarkerOption.width,
+				offset : {
+					x : 0,
+					y : -20
+				}
             };
             window.mapvLayer = new mapv.baiduMapLayer(map, dataSet, options);
         }
@@ -874,8 +882,8 @@ window.mapControl = {
         };
         this.photoOverlay.prototype.draw = function () {
             var position = this._map.pointToOverlayPixel(this._point);
-            this._div.style.left = position.x - this._length / 2 + 3 + "px";
-            this._div.style.top = position.y - this._length + "px";
+            this._div.style.left = position.x - this._length / 2 + 5 + "px";
+            this._div.style.top = position.y - this._length + 2 + "px";
         };
 		this.photoOverlay.prototype.addEventListener = function(event, fun) {
 			this._div['on' + event] = fun;

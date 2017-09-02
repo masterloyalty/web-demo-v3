@@ -168,8 +168,8 @@ var Monitorallcontent = React.createClass({
             // MarkerOption.height = 41;
             // MarkerOption.width = 34;
         } else {
-            MarkerOption.height = 27;
-            MarkerOption.width = 22;
+            MarkerOption.height = 1;
+            MarkerOption.width = 1;
         }
         if (data.length === 0) {
             mapControl.setBoundSearch([], MarkerOption);
@@ -183,9 +183,10 @@ var Monitorallcontent = React.createClass({
                             coordinates: [item.point[0], item.point[1]]
                         },
                         icon: img,
-                        deg: item.direction ? item.direction : 0,
+                        //deg: item.direction ? item.direction : 0,
+						deg: 0,
                         entity_name: item.entity_name,
-                        entity_status: item.entity_status
+                        entity_status: item.entity_status,
                     });
                     if (markerArr.length === data.length) {
                         mapControl.setBoundSearch(markerArr, MarkerOption);
