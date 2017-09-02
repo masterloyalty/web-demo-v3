@@ -922,6 +922,8 @@ var TrackStore = Reflux.createStore({
      * @param {array} data entity数据
      */
     setTracklist: function (data) {
+		this.resetMapCenter(data);
+		
         var that = this;
         that.data.trackList = [];
         data.entities.map(function (item, index) {
@@ -1366,7 +1368,54 @@ var TrackStore = Reflux.createStore({
             // radius: point.radius
         };
         return infoBoxObject;
-    }
+    },
+	resetMapCenter(data) {
+		let maxLng = 0;
+		let minLng = 1000;
+		let maxLat = 0;
+		let minLat = 1000;
+		
+		for(var i = 0; i < data.entities.length; ++i) {
+			if(data.entities[i].latest_location.longitude != 0) {
+				if(maxLng < data.entities[i].latest_location.longitude) {
+					maxLng = data.entities[i].latest_location.longitude;
+				}
+			
+				if(minLng > data.entities[i].latest_location.longitude) {
+					minLng = data.entities[i].latest_location.longitude;
+				}
+			}
+			
+			if(data.entities[i].latest_location.latitude != 0) {
+				if(maxLat < data.entities[i].latest_location.latitude) {
+					maxLat = data.entities[i].latest_location.latitude;
+				}
+			
+				if(minLat > data.entities[i].latest_location.latitude) {
+					minLat = data.entities[i].latest_location.latitude;
+				}
+			}
+		}
+		
+		let cenLng = (maxLng + minLng) / 2;
+        let cenLat = (maxLat + minLat) / 2;
+        let zoom = this.getMapZoom(maxLng, minLng, maxLat, minLat);
+		
+		window.map.centerAndZoom(new BMap.Point(cenLng, cenLat), zoom);
+	},
+	getMapZoom(maxLng, minLng, maxLat, minLat) {
+		var zoom = ["50", "100", "200", "500", "1000", "2000", "5000", "10000", "20000", "25000", "50000", "100000", "200000", "500000", "1000000", "2000000"] //级别18到3。  
+			//最大最小的坐标点
+		var pointA = new BMap.Point(maxLng, maxLat); // 创建点坐标A  
+		var pointB = new BMap.Point(minLng, minLat); // 创建点坐标B  
+		var distance = window.map.getDistance(pointA, pointB).toFixed(1); //获取两点距离,保留小数点后两位 
+		for (var i = 0, zoomLen = zoom.length; i < zoomLen; i++) {
+			if (zoom[i] - distance > 0) {
+				return 18 - i + 3;
+				//地图范围常常是比例尺距离的10倍以上 所以加3
+			}
+		};
+	}
 });
 
 export default TrackStore

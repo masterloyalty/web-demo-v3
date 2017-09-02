@@ -58,18 +58,18 @@ window.mapControl = {
      *
      */
     initLocation: function() {
-        var geolocation = new BMap.Geolocation();
-        geolocation.getCurrentPosition(function(r){
-            if(this.getStatus() == BMAP_STATUS_SUCCESS){
-                map.panTo(r.point);
-            }
-            else {
+        // var geolocation = new BMap.Geolocation();
+        // geolocation.getCurrentPosition(function(r){
+            // if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                // map.panTo(r.point);
+            // }
+            // else {
                 
-            }        
-        },
-        {
-            enableHighAccuracy: true
-        });
+            // }        
+        // },
+        // {
+            // enableHighAccuracy: true
+        // });
     },
     /**
      * 添加控件
