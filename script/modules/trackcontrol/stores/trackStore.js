@@ -188,7 +188,7 @@ var TrackStore = Reflux.createStore({
             'page_size': 10,
         };
 
-        Urls.jsonp(Urls.searchEntity, params, function(data) {
+        Urls.jsonp(Urls.searchEntity + "/" + Commonfun.getCompanyId(), params, function(data) {
             if (data.status === 0) {
                 that.setAllEntities(data);
                 that.setallCompleteEntities(data);
@@ -228,7 +228,7 @@ var TrackStore = Reflux.createStore({
             'page_index': index,
             'page_size': 10,
         };
-        Urls.jsonp(Urls.searchEntity, params, function(data) {
+        Urls.jsonp(Urls.searchEntity + "/" + Commonfun.getCompanyId(), params, function(data) {
             if (data.status === 0) {
                 that.setOfflineEntities(data);
                 that.setOfflineCompleteEntities(data);
@@ -267,7 +267,7 @@ var TrackStore = Reflux.createStore({
             'page_index': index,
             'page_size': 10,
         };
-        Urls.jsonp(Urls.searchEntity, params, function(data) {
+        Urls.jsonp(Urls.searchEntity + "/" + Commonfun.getCompanyId(), params, function(data) {
             if (data.status === 0) {
                 that.setOnlineEntities(data);
                 that.setonlineCompleteEntities(data);
@@ -384,7 +384,7 @@ var TrackStore = Reflux.createStore({
                     'filter': filter,
                     'page_size': page_size
                 };
-                Urls.jsonp(Urls.boundsearchEntity, params, function (data) {
+                Urls.jsonp(Urls.boundsearchEntity + "/" + Commonfun.getCompanyId(), params, function (data) {
                     if (data.status === 0) {
                         data.entities.map(function (eitem, eindex) {
                             let status = '';
@@ -426,7 +426,7 @@ var TrackStore = Reflux.createStore({
                 'page_index': page_index,
                 'page_size': 1000
             };
-            Urls.jsonp(Urls.boundsearchEntity, params, function (data) {
+            Urls.jsonp(Urls.boundsearchEntity + "/" + Commonfun.getCompanyId(), params, function (data) {
                 if (inTimestamp !== that.data.boundsearchTimestamp) {
                     return;
                 }
@@ -487,7 +487,7 @@ var TrackStore = Reflux.createStore({
                     'page_size': map.getZoom() * 20,
                     'sortby': 'loc_time:desc'
                 };
-                Urls.jsonp(Urls.searchEntity, params, function (data) {
+                Urls.jsonp(Urls.searchEntity + "/" + Commonfun.getCompanyId(), params, function (data) {
                     if (inTimestamp !== that.data.boundsearchTimestamp) {
                         return;
                     }
@@ -550,7 +550,7 @@ var TrackStore = Reflux.createStore({
             'page_index': 1,
         };
 
-        Urls.jsonp(Urls.searchEntity, params, function(data) {
+        Urls.jsonp(Urls.searchEntity + "/" + Commonfun.getCompanyId(), params, function(data) {
             if (data.status === 0) {
                 data.entities.map(function(item, index) {
                     if (item.entity_name === entity_name) {
@@ -823,7 +823,7 @@ var TrackStore = Reflux.createStore({
             'page_size': 10,
             'page_index': index 
         };
-        Urls.jsonp(Urls.searchEntity, params, function(data) {
+        Urls.jsonp(Urls.searchEntity + "/" + Commonfun.getCompanyId(), params, function(data) {
             if(data.status === 0) {
                 that.setTracklist(data);
                 this.trigger('tracklist', that.getTracklist());

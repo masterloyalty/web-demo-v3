@@ -206,6 +206,11 @@ var commonfun = {
         }
         return directionIcon;
      },
+
+    getCompanyId: function() {
+        let companyId = this.getQueryString("company_id")
+        return companyId;
+    },
 };
 
 
