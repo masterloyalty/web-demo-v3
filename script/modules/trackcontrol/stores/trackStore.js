@@ -125,7 +125,8 @@ var TrackStore = Reflux.createStore({
             all: 0,
             online: 0,
             offline: 0
-        }
+        },
+        firstBoundSearch: true
     },
     /**
      * 响应Action switchtab，变更页签
@@ -571,6 +572,9 @@ var TrackStore = Reflux.createStore({
                                 if (keyitem === '_provider') {
                                     
                                 } else {
+                                    if(keyitem == "company_id") {
+                                        return;
+                                    }
                                     temp[index] = [that.data.column[index] + ':', item[keyitem] !== undefined ? item[keyitem] : '无'];
                                 }
                             });
@@ -592,9 +596,11 @@ var TrackStore = Reflux.createStore({
                                 phone: item.phone,
                                 zh_name: item.name,
                                 infor: [
-                                    ['状态:', Commonfun.getInfoWindowStatus(item.latest_location.speed, item.latest_location.loc_time, item.latest_location.direction)],
+                                    ['姓名:', item.name],
+                                    ['电话:', item.phone],
+                                    //['状态:', Commonfun.getInfoWindowStatus(item.latest_location.speed, item.latest_location.loc_time, item.latest_location.direction)],
                                     ['地址:', address],
-                                    ['定位:', lnglat],
+                                    //['定位:', lnglat],
                                     ['时间:', Commonfun.getLocalTime(item.latest_location.loc_time)]
                                 ].concat(temp)
                             };
@@ -603,9 +609,9 @@ var TrackStore = Reflux.createStore({
                             let entityOption = localStorage['entityOption' + that.data.serviceId];
                             if (entityOption === 'byname' || entityOption === undefined) {
                                 that.data.selectCompleteEntities[index]['entity_print'] = item.entity_name;
-                                if (!!item.entity_desc) {
-                                    that.data.selectCompleteEntities[index]['infor'].unshift(['描述', item.entity_desc]);
-                                }
+                                // if (!!item.entity_desc) {
+                                //     that.data.selectCompleteEntities[index]['infor'].unshift(['描述', item.entity_desc]);
+                                // }
                             } else if (entityOption === 'bydesc') {
                                 that.data.selectCompleteEntities[index]['entity_print'] = item.entity_desc ? item.entity_desc : '无';
                                 that.data.selectCompleteEntities[index]['infor'].unshift(['名称', item.entity_name]);

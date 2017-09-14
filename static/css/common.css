@@ -1089,10 +1089,10 @@ abbr{
 }
 
 .carInfoContent{
-    height: 110px;
+    height: 130px;
     width: 100%;
     font-size: 12px;
-    overflow-y: scroll;
+    /*overflow-y: scroll;*/
     -webkit-overflow-scrolling:touch;
 }
 

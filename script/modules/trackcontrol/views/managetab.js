@@ -28,6 +28,7 @@ var Managetab = React.createClass({
             this.setState({pointerTab: 'pointerTabLeft'});
             this.setState({pointerTabIndex: 0});
             TrackAction.switchmanagetab(0);
+            TrackStore.data.firstBoundSearch = true;
         }
     },
     render: function() {

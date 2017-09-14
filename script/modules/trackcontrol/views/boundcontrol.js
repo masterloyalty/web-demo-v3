@@ -9,7 +9,6 @@ import TrackAction from '../actions/trackAction';
 import CommonStore from '../../common/stores/commonStore';
 
 let Boundcontrol = React.createClass({
-    firstLoad : true,
     getInitialState() {
         return {
             // 页签编码 0为实时监控 1为轨迹查询
@@ -109,9 +108,9 @@ let Boundcontrol = React.createClass({
         let handleBoundSwitch = this.handleBoundSwitch;
         let boundTotal = this.state.boundTotal;
         let describe = this.state.describe;
-        if(this.firstLoad == true) {
+        if(TrackStore.data.firstBoundSearch == true) {
             TrackAction.switchboundsearch(true);
-            this.firstLoad = false;
+            TrackStore.data.firstBoundSearch = false;
         }
 
         return (
