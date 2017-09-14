@@ -9,6 +9,7 @@ import TrackAction from '../actions/trackAction';
 import CommonStore from '../../common/stores/commonStore';
 
 let Boundcontrol = React.createClass({
+    firstLoad : true,
     getInitialState() {
         return {
             // 页签编码 0为实时监控 1为轨迹查询
@@ -16,7 +17,7 @@ let Boundcontrol = React.createClass({
             // 父容器可见性
             parentVisible: {},
             // 是否开启
-            boundSwitch: 'boundOff',
+            boundSwitch: 'boundOn',
             // 当前视野设备的数量
             boundTotal: 0,
             // 文字描述
@@ -108,6 +109,11 @@ let Boundcontrol = React.createClass({
         let handleBoundSwitch = this.handleBoundSwitch;
         let boundTotal = this.state.boundTotal;
         let describe = this.state.describe;
+        if(this.firstLoad == true) {
+            TrackAction.switchboundsearch(true);
+            this.firstLoad = false;
+        }
+
         return (
             <div className={tabIndex === 1 ? 'boundcontrol hidden' : 'boundcontrol visible'} style={parentVisible} >
                 <div className="boundsearch_title">全部显示</div>

@@ -90,7 +90,9 @@ var EntityStore = Reflux.createStore({
                     ['create_time', item.create_time],
                     ['local_address', dataGeo.result.formatted_address === '' ? '无' : dataGeo.result.formatted_address,],
                     ['loc_time', Commonfun.getLocalTime(item.latest_location.loc_time)],
-					['entity_photo', item.photo]
+					['entity_photo', item.photo],
+                    ['entity_phone', item.phone],
+                    ['entity_zh_name', item.name]
                 ].concat(temp));
                 if (that.data.entities.length === that.data.size) {
                     that.trigger('list', that.getEntities());

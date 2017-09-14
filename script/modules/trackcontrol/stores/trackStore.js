@@ -403,7 +403,9 @@ var TrackStore = Reflux.createStore({
                                 direction: eitem.latest_location.direction,
                                 status: status,
                                 entity_status: entity_status,
-								photo: eitem.photo
+                                photo: eitem.photo,
+                                phone: eitem.phone,
+                                zh_name: eitem.name
                             });
 
 
@@ -460,7 +462,9 @@ var TrackStore = Reflux.createStore({
                             direction: eitem.latest_location.direction,
                             status: status,
                             entity_status: entity_status,
-							photo: eitem.photo
+                            photo: eitem.photo,
+                            phone: eitem.phone,
+                            zh_name: eitem.name
                         });
                     });
                     if (inBoundsEntity.length !== data.total) {
@@ -509,7 +513,9 @@ var TrackStore = Reflux.createStore({
                                 direction: eitem.latest_location.direction,
                                 status: status,
                                 entity_status: entity_status,
-								photo: eitem.photo
+                                photo: eitem.photo,
+                                phone: eitem.phone,
+                                zh_name: eitem.name
                             });
                         });
                         if (++tempCount === j) {
@@ -582,7 +588,9 @@ var TrackStore = Reflux.createStore({
                                 point: [item.latest_location.longitude, item.latest_location.latitude],
                                 direction:item.latest_location.direction,
                                 status: Commonfun.getInfoWindowStatus(item.latest_location.speed, item.latest_location.loc_time, item.latest_location.direction),
-								photo: item.photo,
+                                photo: item.photo,
+                                phone: item.phone,
+                                zh_name: item.name,
                                 infor: [
                                     ['状态:', Commonfun.getInfoWindowStatus(item.latest_location.speed, item.latest_location.loc_time, item.latest_location.direction)],
                                     ['地址:', address],
@@ -661,7 +669,9 @@ var TrackStore = Reflux.createStore({
                 descIndex,
                 '',
                 item.entity_desc ? item.entity_desc : '无',
-				item.photo
+				item.photo,
+                item.phone,
+                item.name
             ];
             // 为managerdemo添加特殊识别字段entity_id
             if (!!item.entity_id) {
@@ -719,7 +729,9 @@ var TrackStore = Reflux.createStore({
                 descIndex,
                 '',
                 item.entity_desc ? item.entity_desc : '无',
-				item.photo
+                item.photo,
+                item.phone,
+                item.name
             ];
             // 为managerdemo添加特殊识别字段entity_id
             if (!!item.entity_id) {
@@ -777,7 +789,9 @@ var TrackStore = Reflux.createStore({
                 descIndex,
                 '',
                 item.entity_desc ? item.entity_desc : '无',
-				item.photo
+                item.photo,
+                item.phone,
+                item.name
             ];
             // 为managerdemo添加特殊识别字段entity_id
             if (!!item.entity_id) {
