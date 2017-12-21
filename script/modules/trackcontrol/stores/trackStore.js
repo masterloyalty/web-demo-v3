@@ -1067,7 +1067,8 @@ var TrackStore = Reflux.createStore({
            'process_option': 'need_denoise=' + that.data.trackProcess.need_denoise + ',' +
                              'need_vacuate=' + that.data.trackProcess.need_vacuate + ',' +
                              'need_mapmatch=' + that.data.trackProcess.need_mapmatch + ',' +
-                             'transport_mode=' + that.data.transport_mode[that.data.trackProcess.transport_mode - 1]
+                             'transport_mode=' + that.data.transport_mode[that.data.trackProcess.transport_mode - 1] + ',' +
+                             'radius_threshold=100'
         };
         var count = 1;
         var reTrackRoute = function (paramsr, page_index) {
