@@ -858,7 +858,8 @@ var TrackStore = Reflux.createStore({
                         'process_option': 'need_denoise=' + that.data.trackProcess.need_denoise + ','+
                                           'need_vacuate=' + that.data.trackProcess.need_vacuate + ',' +
                                           'need_mapmatch=' + that.data.trackProcess.need_mapmatch + ',' +
-                                          'transport_mode=' + that.data.transport_mode[that.data.trackProcess.transport_mode - 1]
+                                          'transport_mode=' + that.data.transport_mode[that.data.trackProcess.transport_mode - 1] + ',' +
+                                          'radius_threshold=30'
                     };
                     Urls.jsonp(Urls.getDistance, paramsd, function(datad) {
                         if(datad.status === 0){
@@ -982,8 +983,10 @@ var TrackStore = Reflux.createStore({
         var that = this;
         that.data.trackList.map(function(item) {
             if(item.name === name) {
-                item.distance = data;
                 item.style = data > 0 ? 0 : 1;
+                // modified by lcy -- 20180117 不直接显示距离，因为显示轨迹时对上报的轨迹做了过滤，会导致实际距离与轨迹的距离不匹配
+                item.distance = data;
+                // item.distance = data > 0 ? '>0.0' : data;
             }
         });
     },
@@ -1068,7 +1071,7 @@ var TrackStore = Reflux.createStore({
                              'need_vacuate=' + that.data.trackProcess.need_vacuate + ',' +
                              'need_mapmatch=' + that.data.trackProcess.need_mapmatch + ',' +
                              'transport_mode=' + that.data.transport_mode[that.data.trackProcess.transport_mode - 1] + ',' +
-                             'radius_threshold=50'
+                             'radius_threshold=30'
         };
         var count = 1;
         var reTrackRoute = function (paramsr, page_index) {
@@ -1097,11 +1100,42 @@ var TrackStore = Reflux.createStore({
                             for(var i = 0; i < 12; i++) {
                                 that.data.trackRoutePointData = that.data.trackRoutePointData.concat(that.data.trackRouteSortData[i].data.points);
                             }
+                            var lastValidPoint = null, prevPoint;
                             that.data.trackRoutePointData.map(function(item){
+                                // modified by lcy -- 20180115  优化鹰眼显示效果
                                 if (item.longitude > 1 && item.latitude > 1) {
-                                    that.data.trackRouteNoZero.push(item);
-                                }  
+                                    if (prevPoint && (item.loc_time-prevPoint.loc_time) > 600) {
+                                        // 如果已经10分钟没有点了，那么重新计算点
+                                        lastValidPoint = null;
+                                    }
+                                    if (item.speed < 100 && item.radius <= 50) {
+                                        if (!lastValidPoint) {
+                                            lastValidPoint = item;
+                                            // that.data.trackRouteNoZero.push(item);
+                                        } else {
+                                            if (item.speed < 2.5 ||
+                                                window.map.getDistance(new BMap.Point(lastValidPoint.longitude, lastValidPoint.latitude),
+                                                    new BMap.Point(item.longitude, item.latitude)) <= 50) {
+                                                item.longitude = lastValidPoint.longitude;
+                                                item.latitude = lastValidPoint.latitude;
+                                            } else {
+                                                lastValidPoint = item;
+                                                // that.data.trackRouteNoZero.push(item);
+                                            }
+                                        }
+                                        that.data.trackRouteNoZero.push(item);
+                                    } else {
+                                        if (lastValidPoint) {
+                                            item.longitude = lastValidPoint.longitude;
+                                            item.latitude = lastValidPoint.latitude;
+                                            that.data.trackRouteNoZero.push(item);
+                                        }
+                                    }
+                                }
+                                prevPoint = item;
+                                // mddified end
                             });
+                            console.log(that.data.trackRouteNoZero);
                             that.trigger('trackroutefirst', first);
                             that.trigger('trackroute', that.data.trackRouteNoZero);
                             that.data.trackSearching = 0;

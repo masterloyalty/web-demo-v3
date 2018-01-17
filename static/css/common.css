@@ -1056,6 +1056,7 @@ abbr{
     width: 80px;
     height: 100%;
     text-align: right;
+    display:none;   /* modified by lcy 20180117*/
 }
 
 .monitorListItemNameoff{
